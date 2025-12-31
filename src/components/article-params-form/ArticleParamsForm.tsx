@@ -36,7 +36,7 @@ export const ArticleParamsForm = ({
 	useEffect(() => {
 		setFormState(currentState);
 	}, [currentState]);
-	const handeFormChange = <K extends keyof ArticleStateType>(
+	const handleFormChange = <K extends keyof ArticleStateType>(
 		key: K,
 		selected: ArticleStateType[K]
 	) => {
@@ -73,7 +73,7 @@ export const ArticleParamsForm = ({
 						options={fontFamilyOptions}
 						selected={formState.fontFamilyOption}
 						onChange={(selected) =>
-							handeFormChange('fontFamilyOption', selected)
+							handleFormChange('fontFamilyOption', selected)
 						}
 						title='Шрифт'
 					/>
@@ -82,14 +82,16 @@ export const ArticleParamsForm = ({
 						name='font-size'
 						options={fontSizeOptions}
 						selected={formState.fontSizeOption}
-						onChange={(selected) => handeFormChange('fontSizeOption', selected)}
+						onChange={(selected) =>
+							handleFormChange('fontSizeOption', selected)
+						}
 						title='Размер шрифта'
 					/>
 
 					<Select
 						options={fontColors}
 						selected={formState.fontColor}
-						onChange={(selected) => handeFormChange('fontColor', selected)}
+						onChange={(selected) => handleFormChange('fontColor', selected)}
 						title='Цвет шрифта'
 					/>
 
@@ -99,7 +101,7 @@ export const ArticleParamsForm = ({
 						options={backgroundColors}
 						selected={formState.backgroundColor}
 						onChange={(selected) =>
-							handeFormChange('backgroundColor', selected)
+							handleFormChange('backgroundColor', selected)
 						}
 						title='Цвет фона'
 					/>
@@ -107,7 +109,7 @@ export const ArticleParamsForm = ({
 					<Select
 						options={contentWidthArr}
 						selected={formState.contentWidth}
-						onChange={(selected) => handeFormChange('contentWidth', selected)}
+						onChange={(selected) => handleFormChange('contentWidth', selected)}
 						title='Ширина контента'
 					/>
 
