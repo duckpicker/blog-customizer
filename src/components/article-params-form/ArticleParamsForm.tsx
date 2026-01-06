@@ -3,7 +3,7 @@ import { Button } from 'src/ui/button';
 import clsx from 'clsx';
 
 import styles from './ArticleParamsForm.module.scss';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Select } from 'src/ui/select';
 import {
 	ArticleStateType,
@@ -17,6 +17,7 @@ import {
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 import { Text } from 'src/ui/text';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 type Props = {
 	currentState: ArticleStateType;
@@ -29,9 +30,17 @@ export const ArticleParamsForm = ({
 	onApply,
 	onReset,
 }: Props) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formState, setFormState] =
 		useState<ArticleStateType>(defaultArticleState);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	useOutsideClickClose({
+		isOpen: isMenuOpen,
+		rootRef: containerRef,
+		onClose: () => setIsMenuOpen(false),
+		onChange: setIsMenuOpen,
+	});
 
 	useEffect(() => {
 		setFormState(currentState);
@@ -48,13 +57,16 @@ export const ArticleParamsForm = ({
 	return (
 		<>
 			<ArrowButton
-				isOpen={isOpen}
+				isOpen={isMenuOpen}
 				onClick={() => {
-					setIsOpen((prev) => !prev);
+					setIsMenuOpen((prev) => !prev);
 				}}
 			/>
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				ref={containerRef}
+				className={clsx(styles.container, {
+					[styles.container_open]: isMenuOpen,
+				})}>
 				<form
 					className={styles.form}
 					onReset={(e) => {
